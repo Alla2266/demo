@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration - Foodie</title>
+  <style>
+    /* General body styling */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('image/background-2.jpg'); /* Replace with your background image */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: white;
+    }
+
+    /* Header styling */
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent header */
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+      color: #ff6b6b; /* Red title color */
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Main and registration box styling */
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 100px); /* Full page height minus header */
+    }
+
+    .register-section {
+      background-color: #fff; /* White background for the box */
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      width: 350px;
+      text-align: center;
+      color: #333; /* Dark text for readability */
+      border: 3px solid #ff6b6b; /* Red border for the box */
+    }
+
+    h2 {
+      color: #ff6b6b; /* Red section title */
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    input:focus {
+      border-color: #ff6b6b; /* Red border on focus */
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #ff6b6b;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #e64545; /* Slightly darker red on hover */
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Foodie Registration</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="register-section">
+      <h2>Create a New Account</h2>
+
+      <form action="register.php" method="POST" id="register-form">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" id="confirm-password" name="confirm-password" required>
+
+        <button type="submit">Register</button>
+      </form>
+    </section>
+  </main>
+</body>
+
+</html>

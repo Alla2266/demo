@@ -1,0 +1,47 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/MenuServlet")
+public class MenuServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String query = "SELECT * FROM menu_item";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                out.println("<li data-category='" + rs.getString("category") + "'>");
+                out.println("<div class='food-menu-card'>");
+                out.println("<div class='card-banner'>");
+                out.println("<img src='" + rs.getString("image_path") + "' width='300' height='300' alt='" + rs.getString("name") + "' class='w-100'>");
+                out.println("<div class='badge'>-" + rs.getInt("discount_percentage") + "%</div>");
+                out.println("<button class='btn food-menu-btn'>Order Now</button>");
+                out.println("</div>");
+                out.println("<div class='wrapper'>");
+                out.println("<p class='category'>" + rs.getString("category") + "</p>");
+                out.println("<h3 class='h3 card-title'>" + rs.getString("name") + "</h3>");
+                out.println("</div>");
+                out.println("<div class='price-wrapper'>");
+                out.println("<p class='price-text'>Price:</p>");
+                out.println("<data class='price'>₹" + rs.getDouble("discount_price") + "</data>");
+                out.println("<del class='del'>₹" + rs.getDouble("price") + "</del>");
+                out.println("</div>");
+                out.println("</div>");
+                out.println("</li>");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

@@ -1,0 +1,145 @@
+<%@ page import="java.sql.*, java.util.*" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Dashboard Section -->
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="icon"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
+                        <span class="title"><h2>Admin Dashboard</h2></span>
+                    </a> 
+                </li>
+                <li>
+                    <a href="admin.jsp">
+                        <span class="icon"><i class="fa fa-home" aria-hidden="true"></i></span>
+                        <span class="title">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="add_product.jsp">
+                        <span class="icon"><i class="fa fa-id-card" aria-hidden="true"></i></span>
+                        <span class="title">Add Product</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><i class="fa fa-cogs" aria-hidden="true"></i></span>
+                        <span class="title">View Orders</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><i class="fa fa-cogs" aria-hidden="true"></i></span>
+                        <span class="title">View Feedback</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="login.jsp">
+                        <span class="icon"><i class="fa fa-sign-out" aria-hidden="true"></i></span>
+                        <span class="title">Log out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle"></div> 
+                <div class="search">
+                    <label for="html">
+                        <input type="text" placeholder="Search Here">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </label>
+                </div>
+                <div class="user">
+                    <img src="./img/dashboard_logo.png" style="height:80px;">
+                </div>
+            </div>
+
+            <div class="details">
+                <div class="recentorders">
+                    <div class="cardheader">
+                        <h2>Add Item</h2>
+                        <% if ("valid".equals(str)) { %>
+                            <h4>Item Added!</h4>
+                        <% } %>
+                    </div>
+                    <div>
+                        <form action="Product" method="post" enctype="multipart/form-data">
+                            <label for="prodid">Product Id</label>
+                            <input type="text" name="prodid" placeholder="Product Id.."><br><br>
+
+                            <label for="prodname">Product Name</label>
+                            <input type="text" name="prodname" placeholder="Product Name.."><br><br>
+
+                            <label for="category">Category</label>
+                            <select name="category">
+                                <%
+                                    String category = null;
+                                    Connection conn = null;
+                                    PreparedStatement pstm = null;
+                                    ResultSet rs = null;
+                                    try {
+                                        Class.forName("com.mysql.cj.jdbc.Driver");
+                                        String url = "jdbc:mysql://localhost:3306/food_items";
+                                        String uid = "root";
+                                        String upass = "admin";
+                                        conn = DriverManager.getConnection(url, uid, upass);
+                                        pstm = conn.prepareStatement("SELECT DISTINCT category FROM menu_item");
+                                        rs = pstm.executeQuery();
+
+                                        while (rs.next()) {
+                                            category = rs.getString("category");
+                                %>
+                                            <option value="<%= category %>"><%= category %></option>
+                                <%
+                                        }
+                                    } catch (Exception e) {
+                                        out.println("<p>Error: " + e.getMessage() + "</p>");
+                                        e.printStackTrace();
+                                    } finally {
+                                        try {
+                                            if (rs != null) rs.close();
+                                            if (pstm != null) pstm.close();
+                                            if (conn != null) conn.close();
+                                        } catch (SQLException ex) {
+                                            out.println("<p>Error closing resources: " + ex.getMessage() + "</p>");
+                                        }
+                                    }
+                                %>
+                            </select><br><br>
+
+                            <label for="qty">Quantity</label>
+                            <input type="text" name="qty" placeholder="Quantity.."><br><br>
+
+                            <label for="price">Price</label>
+                            <input type="text" name="price" placeholder="Price.."><br><br>
+
+                            <label for="fname">Product Image</label>
+                            <input type="file" name="fname"/><br><br>
+
+                            <input type="submit" value="Submit">
+                            <input type="reset" value="Clear">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

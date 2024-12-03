@@ -1,0 +1,79 @@
+package com.uniquedeveloper.registration;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
+
+/**
+ * Servlet implementation class menuServelet
+ */
+@WebServlet("/menuServelet")
+public class menuServelet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String jdbcURL = "jdbc:mysql://localhost:3306/food_items";
+        String jdbcUsername = "root";
+        String jdbcPassword = "admin";
+
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        // Set response content type to JSON
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+
+        try {
+            // Establish database connection
+            connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+
+            // SQL query to fetch all menu items
+            String sql = "SELECT * FROM menu_item";
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+
+            // Create a JSON array to store the menu items
+            JSONArray menuItems = new JSONArray();
+
+            // Loop through the result set and build JSON objects
+            while (resultSet.next()) {
+                JSONObject item = new JSONObject();
+                item.put("id", resultSet.getInt("id"));
+                item.put("name", resultSet.getString("name"));
+                item.put("category", resultSet.getString("category"));
+                item.put("image_url", resultSet.getString("image_url"));
+                item.put("price", resultSet.getDouble("price"));
+                item.put("discount", resultSet.getDouble("discount"));
+                item.put("description", resultSet.getString("description"));
+
+                menuItems.put(item);
+            }
+
+            // Send the JSON response
+            out.print(menuItems.toString());
+        } catch (SQLException e) {
+            // Handle SQL errors
+            e.printStackTrace();
+            out.print("{\"error\":\"Error fetching menu items\"}");
+        } finally {
+            try {
+                // Close all resources
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}

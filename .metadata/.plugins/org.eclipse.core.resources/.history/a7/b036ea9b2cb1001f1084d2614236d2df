@@ -1,0 +1,41 @@
+package com.uniquedeveloper.registration;
+
+public class dbconnection {
+
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/food_items";
+    private static final String USER = "root";
+    private static final String PASSWORD = "admin";
+
+    // Method to establish a connection
+    public static Connection getConnection() {
+        Connection con = null;
+        try {
+            // Load the JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Establish the connection
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/food_items",
+                    "root",
+                    "admin");
+            System.out.println("Connection Established Successfully!");
+        } catch (ClassNotFoundException e) {
+            System.out.println("JDBC Driver not found: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Error connecting to the database: " + e.getMessage());
+        }
+        return con;
+    }
+
+    // Main method for testing the connection
+    public static void main(String[] args) {
+        Connection connection = getConnection();
+        if (connection != null) {
+            try {
+                connection.close();
+                System.out.println("Connection closed successfully.");
+            } catch (SQLException e) {
+                System.out.println("Error closing the connection: " + e.getMessage());
+            }
+        }
+    }
+}

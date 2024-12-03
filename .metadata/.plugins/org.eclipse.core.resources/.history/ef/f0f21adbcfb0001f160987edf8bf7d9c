@@ -1,0 +1,5 @@
+package com.foodmenu.db;
+
+public class DatabaseConnection {
+
+}

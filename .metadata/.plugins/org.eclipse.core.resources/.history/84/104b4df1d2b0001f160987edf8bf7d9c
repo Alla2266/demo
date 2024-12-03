@@ -1,0 +1,75 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/MenuServlet")
+public class MenuServlet extends HttpServlet {
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String query = "SELECT * FROM menu_item";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            
+            // Check if result set has any items
+            if (!rs.isBeforeFirst()) {
+                out.println("<p>No menu items available.</p>");
+            } else {
+                while (rs.next()) {
+                    // Avoid direct HTML injection
+                    String name = rs.getString("name");
+                    String category = rs.getString("category");
+                    String imagePath = rs.getString("image_path");
+                    int discountPercentage = rs.getInt("discount_percentage");
+                    double discountPrice = rs.getDouble("discount_price");
+                    double price = rs.getDouble("price");
+
+                    out.println("<li data-category='" + escapeHtml(category) + "'>");
+                    out.println("<div class='food-menu-card'>");
+                    out.println("<div class='card-banner'>");
+                    out.println("<img src='" + escapeHtml(imagePath) + "' width='300' height='300' alt='" + escapeHtml(name) + "' class='w-100'>");
+                    out.println("<div class='badge'>-" + discountPercentage + "%</div>");
+                    out.println("<button class='btn food-menu-btn'>Order Now</button>");
+                    out.println("</div>");
+                    out.println("<div class='wrapper'>");
+                    out.println("<p class='category'>" + escapeHtml(category) + "</p>");
+                    out.println("<h3 class='h3 card-title'>" + escapeHtml(name) + "</h3>");
+                    out.println("</div>");
+                    out.println("<div class='price-wrapper'>");
+                    out.println("<p class='price-text'>Price:</p>");
+                    out.println("<data class='price'>₹" + discountPrice + "</data>");
+                    out.println("<del class='del'>₹" + price + "</del>");
+                    out.println("</div>");
+                    out.println("</div>");
+                    out.println("</li>");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            out.println("<p>Error fetching menu items. Please try again later.</p>");
+        } finally {
+            out.close(); // Ensure PrintWriter is closed
+        }
+    }
+    
+    // Helper method to escape HTML special characters to prevent injection attacks
+    private String escapeHtml(String input) {
+        if (input == null) return "";
+        return input.replace("&", "&amp;")
+                    .replace("<", "&lt;")
+                    .replace(">", "&gt;")
+                    .replace("\"", "&quot;")
+                    .replace("'", "&apos;");
+    }
+}

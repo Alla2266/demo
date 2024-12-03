@@ -1,0 +1,14 @@
+<%@ page import="java.sql.*" %>
+<%
+    String jdbcURL = "jdbc:mysql://localhost:3306/food_items";
+    String jdbcUsername = "root";
+    String jdbcPassword = "admin";
+    
+    Connection connection = null;
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+%>

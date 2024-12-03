@@ -1,0 +1,109 @@
+package com.uniquedeveloper.Product;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import jakarta.servlet.http.Part;
+
+@WebServlet("/Product")
+public class product extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Retrieve form input parameters
+        String prodid = request.getParameter("id");
+        String prodname = request.getParameter("prodname");
+        String category = request.getParameter("catagory");
+        String qty = request.getParameter("qty");
+        String price = request.getParameter("price");
+        Part filePart = request.getPart("fname");  // For file upload
+
+        RequestDispatcher dispatcher = null;
+        Connection con = null;
+
+        // Validate input fields
+        if (prodid == null || prodname == null || category == null || qty == null || price == null ||
+            prodid.isEmpty() || prodname.isEmpty() || category.isEmpty() || qty.isEmpty() || price.isEmpty()) {
+            request.setAttribute("status", "failed");
+            request.setAttribute("errorMessage", "All fields are required.");
+            dispatcher = request.getRequestDispatcher("admin.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+
+        try {
+            // Load JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Establish the database connection
+            con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/food_items?useSSL=false&serverTimezone=UTC", 
+                "root", 
+                "admin"
+            );
+
+            // Prepare the SQL query
+            String sql = "INSERT INTO menu_item (id, category, name, price, original_price, discount, image_path) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            // Set the query parameters
+            pst.setString(1, prodid);
+            pst.setString(2, category);
+            pst.setString(3, prodname);
+            pst.setDouble(4, Double.parseDouble(price));
+            pst.setDouble(5, Double.parseDouble(price));  // Assuming price as original price
+            pst.setDouble(6, 0);  // No discount by default
+
+            // Handle file upload (if present)
+            if (filePart != null) {
+                String fileName = filePart.getSubmittedFileName();
+                String uploadPath = "C:/path/to/upload/directory/" + fileName; // Set your upload directory path
+                filePart.write(uploadPath);
+                pst.setString(7, uploadPath);
+            } else {
+                pst.setString(7, ""); // No file uploaded
+            }
+
+            // Execute the query
+            int rowCount = pst.executeUpdate();
+
+            // Prepare response based on the result
+            dispatcher = request.getRequestDispatcher("admin.jsp");
+            if (rowCount > 0) {
+                request.setAttribute("status", "success");
+                request.setAttribute("message", "Product added successfully!");
+            } else {
+                request.setAttribute("status", "failed");
+                request.setAttribute("message", "Failed to add product, please try again.");
+            }
+
+            dispatcher.forward(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle errors by forwarding to an error page
+            request.setAttribute("status", "failed");
+            request.setAttribute("errorMessage", "Error: " + e.getMessage());
+            dispatcher = request.getRequestDispatcher("error.jsp");
+            dispatcher.forward(request, response);
+        } finally {
+            // Ensure the connection is properly closed
+            try {
+                if (con != null && !con.isClosed()) {
+                    con.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+package com.uniquedeveloper.registration;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.DriverManager;
+
+/**
+ * Servlet implementation class login
+ */
+@WebServlet("/login")
+public class login extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+   
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String uemail = request.getParameter("username");
+		String upwd = request.getParameter("password");
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection(upwd);
+		}
+	}
+
+}

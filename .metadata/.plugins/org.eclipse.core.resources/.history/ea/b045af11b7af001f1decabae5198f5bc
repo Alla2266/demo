@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foodie - Supper delicious Burger in town!</title>
+
+  <!-- 
+    - favicon
+  -->
+  <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml">
+
+  <!-- 
+    - custom css link
+  -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Rubik:wght@400;500;600;700&family=Shadows+Into+Light&display=swap"
+    rel="stylesheet">
+
+  <!-- 
+    - preload images
+  -->
+  <link rel="preload" as="image" href="image/hero-banner.png" media="min-width(768px)">
+  <link rel="preload" as="image" href="image/hero-banner-bg.png" media="min-width(768px)">
+  <link rel="preload" as="image" href="image/hero-bg.jpg">
+
+</head>
+<body id="top">
+<!-- 
+    - #HEADER
+  -->
+
+  <header class="header" data-header>
+    <div class="container">
+
+      <h1>
+        <a href="#" class="logo">Foodie<span class="span">.</span></a>
+      </h1>
+
+      <nav class="navbar" data-navbar>
+        <ul class="navbar-list">
+
+          <li class="nav-item">
+            <a href="#home" class="navbar-link" data-nav-link>Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#banner" class="navbar-link" data-nav-link>Special Offers</a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#food-menu" class="navbar-link" data-nav-link>Menu</a>
+          </li>
+
+         
+          <li class="nav-item">
+            <a href="#contact" class="navbar-link" data-nav-link>Contact Us</a>
+          </li>
+
+        </li>
+        <li class="nav-item">
+          <a href="login.jsp" class="navbar-link">Login</a>
+        </li>
+         
+        </li>
+        <li class="nav-item">
+          <a href="logout" class="navbar-link">Logout</a>
+          
+  </li>
+
+
+  
+        </ul>
+      </nav>
+      
+       <script>
+        // Get the session name from the hidden input field
+        var sessionName = document.getElementById('session-name').value;
+
+        // Dynamically set the content of the navigation link
+        if (sessionName) {
+            var logoutLink = document.getElementById('logout-link');
+            logoutLink.textContent = sessionName; // Set the text
+        }
+    </script>
+
+      
+        <button class="nav-toggle-btn" aria-label="Toggle Menu" data-menu-toggle-btn>
+          <span class="line top"></span>
+          <span class="line middle"></span>
+          <span class="line bottom"></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+
+  <main>
+    <article>
+
+      <!-- 
+        - #HERO
+      -->
+
+      <section class="hero" id="home" style="background-image: url('image/hero-bg.jpg')">
+        <div class="container">
+
+          <div class="hero-content">
+
+            <p class="hero-subtitle">Eat Sleep And</p>
+
+            <h2 class="h1 hero-title">Supper delicious Burger in town!</h2>
+
+            <p class="hero-text">Food is any substance consumed to provide nutritional support for an organism.</p>
+
+            <button class="btn">Order Now</button>
+
+          </div>
+
+          <figure class="hero-banner">
+            <img src="image/hero-banner-bg.png" width="820" height="716" alt="" aria-hidden="true"
+              class="w-100 hero-img-bg">
+
+            <img src="image/hero-banner.png" width="700" height="637" loading="lazy" alt="Burger"
+              class="w-100 hero-img">
+          </figure>
+
+        </div>
+      </section>
+
+
+      <!-- 
+        - #FOOD MENU
+      -->
+
+      <section class="section food-menu" id="food-menu">
+        <div class="container">
+      
+          <p class="section-subtitle">Popular Dishes</p>
+      
+          <h2 class="h2 section-title">
+            Our Delicious <span class="span">Foods</span>
+          </h2>
+      
+          <p class="section-text">
+            Food is any substance consumed to provide nutritional support for an organism.
+          </p>
+      
+          <ul class="fiter-list">
+      
+            <li>
+              <button class="filter-btn active" data-filter="all">All</button>
+            </li>
+      
+            <li>
+              <button class="filter-btn" data-filter="pizza">Pizza</button>
+            </li>
+      
+            <li>
+              <button class="filter-btn" data-filter="burger">Burger</button>
+            </li>
+      
+            <li>
+              <button class="filter-btn" data-filter="drinks">Drinks</button>
+            </li>
+      
+            <li>
+              <button class="filter-btn" data-filter="sandwich">Sandwich</button>
+            </li>
+      
+          </ul>
+      
+          <ul class="food-menu-list">
+      
+            <li data-category="pizza">
+              <div class="food-menu-card">
+      
+                <div class="card-banner">
+                  <img src="image/menu-1.png" width="300" height="300" loading="lazy"
+                    alt="Farmhouse Cheese Burst" class="w-100">
+      
+                  <div class="badge">-15%</div>
+      
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+      
+                <div class="wrapper">
+                  <p class="category">Pizza</p>
+      
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+      
+                <h3 class="h3 card-title">Farmhouse Cheese Burst</h3>
+      
+                <div class="price-wrapper">
+      
+                  <p class="price-text">Price:</p>
+      
+                  <data class="price">₹482.80</data>
+      
+                  <del class="del" value="568.00">₹568.00</del>
+      
+                </div>
+      
+              </div>
+            </li>
+
+            <li data-category="pizza">
+              <div class="food-menu-card">
+      
+                <div class="card-banner">
+                  <img src="image/menu-2.png" width="300" height="300" loading="lazy"
+                    alt="Pepperoni Pizza" class="w-100">
+      
+                  <div class="badge">-12%</div>
+      
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+      
+                <div class="wrapper">
+                  <p class="category">Pizza</p>
+      
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+      
+                <h3 class="h3 card-title">Pepperoni Pizza</h3>
+      
+                <div class="price-wrapper">
+      
+                  <p class="price-text">Price:</p>
+      
+                  <data class="price">₹535.92</data>
+      
+                  <del class="del" value="609.00">₹609.00</del>
+      
+                </div>
+      
+              </div>
+            </li>
+
+            <li data-category="pizza">
+              <div class="food-menu-card">
+      
+                <div class="card-banner">
+                  <img src="image/menu-3.png" width="300" height="300" loading="lazy"
+                    alt="Margherita Pizza" class="w-100">
+      
+                  <div class="badge">-15%</div>
+      
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+      
+                <div class="wrapper">
+                  <p class="category">Pizza</p>
+      
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+      
+                <h3 class="h3 card-title">Margherita Pizza</h3>
+      
+                <div class="price-wrapper">
+      
+                  <p class="price-text">Price:</p>
+      
+                  <data class="price">₹238.00</data>
+      
+                  <del class="del" value="280.00">₹280.00</del>
+      
+                </div>
+      
+              </div>
+            </li>
+
+            <li data-category="burger">
+              <div class="food-menu-card">
+      
+                <div class="card-banner">
+                  <img src="image/menu-4.png" width="300" height="300" loading="lazy"
+                    alt="Chicken Chese Burger" class="w-100">
+      
+                  <div class="badge">-10%</div>
+      
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+      
+                <div class="wrapper">
+                  <p class="category">Burger</p>
+      
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+      
+                <h3 class="h3 card-title">Chicken Chese Burger</h3>
+      
+                <div class="price-wrapper">
+      
+                  <p class="price-text">Price:</p>
+      
+                  <data class="price" value="234.00">₹234.00</data>
+      
+                  <del class="del">₹260.00</del>
+      
+                </div>
+      
+              </div>
+            </li>
+
+            <li data-category="burger">
+              <div class="food-menu-card">
+      
+                <div class="card-banner">
+                  <img src="image/menu-5.jpg" width="300" height="300" loading="lazy"
+                    alt="Bacon Double Chicken Chese Burger" class="w-100">
+      
+                  <div class="badge">-10%</div>
+      
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+      
+                <div class="wrapper">
+                  <p class="category">Burger</p>
+      
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+      
+                <h3 class="h3 card-title">Bacon Double Chicken Chese Burger</h3>
+      
+                <div class="price-wrapper">
+      
+                  <p class="price-text">Price:</p>
+      
+                  <data class="price" value="270.00">₹270.00</data>
+      
+                  <del class="del">₹300.00</del>
+      
+                </div>
+      
+              </div>
+            </li>
+
+            <li data-category="burger">
+              <div class="food-menu-card">
+      
+                <div class="card-banner">
+                  <img src="image/menu-6.jpg" width="300" height="300" loading="lazy"
+                    alt="Crispy Chicken Burger" class="w-100">
+      
+                  <div class="badge">-12%</div>
+      
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+      
+                <div class="wrapper">
+                  <p class="category">Burger</p>
+      
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+      
+                <h3 class="h3 card-title">Crispy Chicken Burger</h3>
+      
+                <div class="price-wrapper">
+      
+                  <p class="price-text">Price:</p>
+      
+                  <data class="price" value="211.20">₹211.20</data>
+      
+                  <del class="del">₹240.00</del>
+      
+                </div>
+      
+              </div>
+            </li>
+      
+      
+            <li data-category="drinks">
+              <div class="food-menu-card">
+      
+                <div class="card-banner">
+                  <img src="image/menu-7.png" width="300" height="300" loading="lazy"
+                    alt="Iced Tea Lemonade" class="w-100">
+      
+                  <div class="badge">-15%</div>
+      
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+      
+                <div class="wrapper">
+                  <p class="category">Drinks</p>
+      
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+      
+                <h3 class="h3 card-title">Iced Tea Lemonade</h3>
+      
+                <div class="price-wrapper">
+      
+                  <p class="price-text">Price:</p>
+      
+                  <data class="price" value="212.50">₹212.50</data>
+      
+                  <del class="del">₹250.00</del>
+      
+                </div>
+      
+              </div>
+            </li>
+
+            <li data-category="drinks">
+              <div class="food-menu-card">
+      
+                <div class="card-banner">
+                  <img src="image/menu-8.png" width="300" height="300" loading="lazy"
+                    alt="Masala Cola" class="w-100">
+      
+                  <div class="badge">-5%</div>
+      
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+      
+                <div class="wrapper">
+                  <p class="category">Drinks</p>
+      
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+      
+                <h3 class="h3 card-title">Masala Cola</h3>
+      
+                <div class="price-wrapper">
+      
+                  <p class="price-text">Price:</p>
+      
+                  <data class="price" value="57.00">57.00</data>
+      
+                  <del class="del">₹60.00</del>
+      
+                </div>
+      
+              </div>
+            </li>
+
+            <li data-category="drinks">
+              <div class="food-menu-card">
+      
+                <div class="card-banner">
+                  <img src="image/menu-9.png" width="300" height="300" loading="lazy"
+                    alt="Blue Lagoon" class="w-100">
+      
+                  <div class="badge">-5%</div>
+      
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+      
+                <div class="wrapper">
+                  <p class="category">Drinks</p>
+      
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+      
+                <h3 class="h3 card-title">Blue Lagoon</h3>
+      
+                <div class="price-wrapper">
+      
+                  <p class="price-text">Price:</p>
+      
+                  <data class="price" value="114.00">₹114.00</data>
+      
+                  <del class="del">₹120.00</del>
+      
+                </div>
+      
+              </div>
+            </li>
+
+            <li data-category="drinks">
+              <div class="food-menu-card">
+      
+                <div class="card-banner">
+                  <img src="image/menu-10.png" width="300" height="300" loading="lazy"
+                    alt="Cranberry Coffee" class="w-100">
+      
+                  <div class="badge">-15%</div>
+      
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+      
+                <div class="wrapper">
+                  <p class="category">Drinks</p>
+      
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+      
+                <h3 class="h3 card-title">Cranberry Coffee</h3>
+      
+                <div class="price-wrapper">
+      
+                  <p class="price-text">Price:</p>
+      
+                  <data class="price" value="229.50">₹229.50</data>
+      
+                  <del class="del">₹270.00</del>
+      
+                </div>
+      
+              </div>
+            </li>
+
+            <li data-category="sandwich">
+              <div class="food-menu-card">
+      
+                <div class="card-banner">
+                  <img src="image/menu-11.png" width="300" height="300" loading="lazy"
+                    alt="Double Chicken Sandwich" class="w-100">
+      
+                  <div class="badge">-15%</div>
+      
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+      
+                <div class="wrapper">
+                  <p class="category">Sandwich</p>
+      
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+      
+                <h3 class="h3 card-title">Double Chicken Sandwich</h3>
+      
+                <div class="price-wrapper">
+      
+                  <p class="price-text">Price:</p>
+      
+                  <data class="price" value="229.50">₹229.50</data>
+      
+                  <del class="del">₹270.00</del>
+      
+                </div>
+      
+              </div>
+            </li>
+
+            <li data-category="sandwich">
+              <div class="food-menu-card">
+      
+                <div class="card-banner">
+                  <img src="image/menu-12.jpg" width="300" height="300" loading="lazy"
+                    alt="Ultimate Chicken Sandwich" class="w-100">
+      
+                  <div class="badge">-15%</div>
+      
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+      
+                <div class="wrapper">
+                  <p class="category">Sandwich</p>
+      
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+      
+                <h3 class="h3 card-title">Ultimate Chicken Sandwich</h3>
+      
+                <div class="price-wrapper">
+      
+                  <p class="price-text">Price:</p>
+      
+                  <data class="price" value="297.50">₹297.50</data>
+      
+                  <del class="del">₹350.00</del>
+      
+                </div>
+      
+              </div>
+            </li>
+
+            <li data-category="sandwich">
+              <div class="food-menu-card">
+      
+                <div class="card-banner">
+                  <img src="image/menu-13.png" width="300" height="300" loading="lazy"
+                    alt="Cheese Sandwich" class="w-100">
+      
+                  <div class="badge">-15%</div>
+      
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+      
+                <div class="wrapper">
+                  <p class="category">Sandwich</p>
+      
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+      
+                <h3 class="h3 card-title">Cheese Sandwich</h3>
+      
+                <div class="price-wrapper">
+      
+                  <p class="price-text">Price:</p>
+      
+                  <data class="price" value="187.00">₹187.00</data>
+      
+                  <del class="del">₹220.00</del>
+      
+                </div>
+      
+              </div>
+            </li>
+      
+      
+            <!-- Add data-category attributes for other items -->
+          </ul>
+        </div>
+      </section>
+      
+      <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const filterButtons = document.querySelectorAll(".filter-btn");
+          const menuItems = document.querySelectorAll(".food-menu-list li");
+      
+          filterButtons.forEach(button => {
+            button.addEventListener("click", () => {
+              const filter = button.getAttribute("data-filter");
+      
+              // Update active button
+              document.querySelector(".filter-btn.active").classList.remove("active");
+              button.classList.add("active");
+      
+              // Filter items
+              menuItems.forEach(item => {
+                const category = item.getAttribute("data-category");
+                if (filter === "all" || category === filter) {
+                  item.style.display = "block";
+                } else {
+                  item.style.display = "none";
+                }
+              });
+            });
+          });
+        });
+      </script>
+      
+          <!-- 
+        - #BANNER
+      -->
+
+      <section class="section section-divider gray banner" id="banner">
+        <div class="container">
+
+          <ul class="banner-list">
+
+            <li class="banner-item banner-lg">
+              <div class="banner-card">
+
+                <img src="image/banner-1.jpg" width="550" height="450" loading="lazy"
+                  alt="Discount For Delicious Tasty Burgers!" class="banner-img">
+
+                <div class="banner-item-content">
+                  <p class="banner-subtitle">50% Off Now!</p>
+
+                  <h3 class="banner-title">Discount For Delicious Tasty Noodles!</h3>
+
+                  <p class="banner-text">Sale off 50% only this week</p>
+
+                  <button class="btn">Order Now</button>
+                </div>
+
+              </div>
+            </li>
+
+            <li class="banner-item banner-sm">
+              <div class="banner-card">
+
+                <img src="image/banner-2.jpg" width="550" height="465" loading="lazy" alt="Delicious Pizza"
+                  class="banner-img">
+
+                <div class="banner-item-content">
+                  <h3 class="banner-title">Delicious Pizza</h3>
+
+                  <p class="banner-text">50% off Now</p>
+
+                  <button class="btn">Order Now</button>
+                </div>
+
+              </div>
+            </li>
+
+            <li class="banner-item banner-sm">
+              <div class="banner-card">
+
+                <img src="image/banner-3.jpg" width="550" height="465" loading="lazy" alt="American Burgers"
+                  class="banner-img">
+
+                <div class="banner-item-content">
+                  <h3 class="banner-title">American Burgers</h3>
+
+                  <p class="banner-text">50% off Now</p>
+
+                  <button class="btn">Order Now</button>
+                </div>
+
+              </div>
+            </li>
+
+            <li class="banner-item banner-md">
+              <div class="banner-card">
+
+                <img src="image/banner-4.jpg" width="550" height="220" loading="lazy" alt="Tasty Buzzed Pizza"
+                  class="banner-img">
+
+                <div class="banner-item-content">
+                  <h3 class="banner-title">Tasty Buzzed Pizza</h3>
+
+                  <p class="banner-text">Sale off 50% only this week</p>
+
+                  <button class="btn">Order Now</button>
+                </div>
+
+              </div>
+            </li>
+
+          </ul>
+
+        </div>
+      </section>
+
+
+    </article>
+  </main>
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+  <footer class="footer" id="contact">
+
+    <div class="footer-top" style="background-image: url('image/footer-illustration.png')">
+      <div class="container">
+
+        <div class="footer-brand">
+
+          <a href="" class="logo">Foodie<span class="span">.</span></a>
+
+          <p class="footer-text">
+            Financial experts support or help you to to find out which way you can raise your funds more.
+          </p>
+
+          <ul class="social-list">
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-facebook"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-twitter"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-instagram"></ion-icon>
+              </a>
+            </li>
+
+        
+
+          </ul>
+
+        </div>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="footer-list-title">Contact Info</p>
+          </li>
+
+          <li>
+            <p class="footer-list-item">+91 6289554873</p>
+          </li>
+
+          <li>
+            <p class="footer-list-item">Foodie@gmail.com</p>
+          </li>
+
+          <li>
+            <address class="footer-list-item">Maichel Nagar Road Kolkata-700133</address>
+          </li>
+
+        </ul>
+
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <p class="copyright-text">
+          &copy; 2024 <a href="#" class="copyright-link">Foodie</a> All Rights Reserved.
+        </p>
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- 
+    - #BACK TO TOP
+  -->
+
+  <a href="#top" class="back-top-btn" aria-label="Back to top" data-back-top-btn>
+    <ion-icon name="chevron-up"></ion-icon>
+  </a>
+
+  <!-- 
+    - custom js link
+  -->
+  <script src="script.js" defer></script>
+
+  <!-- 
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  
+  
+
+</body>
+</html>

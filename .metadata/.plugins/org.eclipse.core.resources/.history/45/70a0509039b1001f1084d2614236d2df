@@ -1,0 +1,92 @@
+'use strict';
+
+
+
+/**
+ * navbar toggle
+ */
+
+const navbar = document.querySelector("[data-navbar]");
+const navbarLinks = document.querySelectorAll("[data-nav-link]");
+const menuToggleBtn = document.querySelector("[data-menu-toggle-btn]");
+
+menuToggleBtn.addEventListener("click", function () {
+  navbar.classList.toggle("active");
+  this.classList.toggle("active");
+});
+
+for (let i = 0; i < navbarLinks.length; i++) {
+  navbarLinks[i].addEventListener("click", function () {
+    navbar.classList.toggle("active");
+    menuToggleBtn.classList.toggle("active");
+  });
+}
+
+
+
+/**
+ * header sticky & back to top
+ */
+
+const header = document.querySelector("[data-header]");
+const backTopBtn = document.querySelector("[data-back-top-btn]");
+
+window.addEventListener("scroll", function () {
+  if (window.scrollY >= 100) {
+    header.classList.add("active");
+    backTopBtn.classList.add("active");
+  } else {
+    header.classList.remove("active");
+    backTopBtn.classList.remove("active");
+  }
+});
+
+
+window.onload = function() {
+    // This code runs when the page is fully loaded
+    let menuTable = document.getElementById('menu-table');
+    
+    // Example: Dynamically filtering the menu
+    const filterCategory = (category) => {
+        let rows = menuTable.getElementsByTagName('tr');
+        for (let i = 1; i < rows.length; i++) {
+            let row = rows[i];
+            let rowCategory = row.cells[2].innerText; // The category column
+            if (rowCategory === category || category === "All") {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        }
+    };
+
+    // Example: Add category filter options
+    const categories = ["Pizza", "Burger", "Drinks", "Sandwich"];
+    let filterDiv = document.createElement('div');
+    let filterLabel = document.createElement('label');
+    filterLabel.innerText = "Filter by Category: ";
+    filterDiv.appendChild(filterLabel);
+
+    let filterSelect = document.createElement('select');
+    let optionAll = document.createElement('option');
+    optionAll.value = "All";
+    optionAll.innerText = "All";
+    filterSelect.appendChild(optionAll);
+
+    categories.forEach(category => {
+        let option = document.createElement('option');
+        option.value = category;
+        option.innerText = category;
+        filterSelect.appendChild(option);
+    });
+
+    filterSelect.addEventListener('change', function() {
+        filterCategory(this.value);
+    });
+
+    filterDiv.appendChild(filterSelect);
+    document.body.insertBefore(filterDiv, menuTable);
+};
+
+
+

@@ -1,0 +1,176 @@
+<%
+	if(session.getAttribute("name"==null)){
+		response.sendRedirect("login.html");
+	}
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Foodie</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Body styling with background image */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('image/background.jpg'); /* Replace with your background image path */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: white;
+    }
+
+    /* Header styling */
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent header background */
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+      color: #ff6b6b; /* Red title color */
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Main content and login section styling */
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 100px); /* Full height minus header */
+    }
+
+    .login-section {
+      background-color: #fff; /* White background for the login box */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      width: 320px;
+      text-align: center;
+      color: #333; /* Dark text for better readability */
+      border: 3px solid #ff6b6b; /* Red border for accent */
+    }
+
+    h2 {
+      color: #ff6b6b; /* Red title inside the box */
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    input:focus {
+      border-color: #ff6b6b; /* Red border on focus */
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #ff6b6b;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #e64545; /* Slightly darker red on hover */
+    }
+
+    p {
+      margin: 10px 0;
+      color: #555; /* Slightly darker text for secondary info */
+    }
+
+    a {
+      color: #ff6b6b; /* Red links */
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Foodie Login</h1>
+    <nav>
+      <a href="index.html">Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="login-section">
+      <h2>User Login</h2>
+
+      <form action="login.php" method="POST" id="login-form">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Login</button>
+      </form>
+
+      <p>Don't have an account? <a href="register.html">Register here</a></p>
+
+      <button id="logout-btn" style="display: none;" onclick="logout()">Logout</button>
+    </section>
+  </main>
+
+  <script>
+    // Simulating login/logout for this example
+    let isLoggedIn = false;
+
+    // Check if user is logged in
+    if (isLoggedIn) {
+      document.getElementById('logout-btn').style.display = 'inline-block';
+    } else {
+      document.getElementById('logout-btn').style.display = 'none';
+    }
+
+    function logout() {
+      // Log the user out and redirect to the login page
+      isLoggedIn = false;
+      window.location.href = 'login.html'; // Redirect to login page
+    }
+  </script>
+</body>
+
+</html>

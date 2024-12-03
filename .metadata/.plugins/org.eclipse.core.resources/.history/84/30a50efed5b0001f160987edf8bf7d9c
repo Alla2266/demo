@@ -1,0 +1,68 @@
+package com.uniquedeveloper.registration;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * Servlet implementation class menuServelet
+ */
+@WebServlet("/menuServelet")
+public class menuServelet extends HttpServlet {
+	 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	        String jdbcURL = "jdbc:mysql://localhost:3306/food_items";
+	        String jdbcUsername = "root";
+	        String jdbcPassword = "admin";
+
+	        Connection connection = null;
+	        Statement statement = null;
+	        ResultSet resultSet = null;
+
+	        response.setContentType("application/json");
+	        PrintWriter out = response.getWriter();
+
+	        try {
+	            // Establish connection
+	            connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+
+	            // Create SQL query to fetch menu items
+	            String sql = "SELECT * FROM menu_item";
+	            statement = connection.createStatement();
+	            resultSet = statement.executeQuery(sql);
+
+	            // Create JSON array to hold menu items
+	            JSONArray menuItems = new JSONArray();
+
+	            while (resultSet.next()) {
+	                JSONObject item = new JSONObject();
+	                item.put("id", resultSet.getInt("id"));
+	                item.put("name", resultSet.getString("name"));
+	                item.put("category", resultSet.getString("category"));
+	                item.put("image_url", resultSet.getString("image_url"));
+	                item.put("price", resultSet.getDouble("price"));
+	                item.put("discount", resultSet.getDouble("discount"));
+	                item.put("description", resultSet.getString("description"));
+
+	                menuItems.put(item);
+	            }
+
+	            out.print(menuItems.toString()); // Send the JSON response
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            out.print("Error fetching menu items");
+	        } finally {
+	            try {
+	                if (resultSet != null) resultSet.close();
+	                if (statement != null) statement.close();
+	                if (connection != null) connection.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	}
+       
+  

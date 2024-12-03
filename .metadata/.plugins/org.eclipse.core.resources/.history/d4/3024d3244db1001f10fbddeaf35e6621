@@ -1,0 +1,132 @@
+package com.uniquedeveloper.productServlet;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+@WebServlet("/Product")
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024 * 2,  // 2MB threshold
+    maxFileSize = 1024 * 1024 * 10,       // 10MB max file size
+    maxRequestSize = 1024 * 1024 * 50    // 50MB max request size
+)
+public class Product extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Retrieve form input parameters
+        String prodid = request.getParameter("id");
+        String prodname = request.getParameter("prodname");
+        String category = request.getParameter("catagory");
+        String qtyStr = request.getParameter("qty");
+        String priceStr = request.getParameter("price");
+        Part filePart = request.getPart("fname");  // For file upload
+
+        RequestDispatcher dispatcher = null;
+        Connection con = null;
+
+        // Validate input fields
+        if (prodid == null || prodname == null || category == null || qtyStr == null || priceStr == null ||
+            prodid.isEmpty() || prodname.isEmpty() || category.isEmpty() || qtyStr.isEmpty() || priceStr.isEmpty()) {
+            request.setAttribute("status", "failed");
+            request.setAttribute("errorMessage", "All fields are required.");
+            dispatcher = request.getRequestDispatcher("admin.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+
+        try {
+            // Validate numeric inputs
+            int qty = Integer.parseInt(qtyStr);
+            double price = Double.parseDouble(priceStr);
+
+            // Load JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Establish the database connection
+            con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/food_items?useSSL=false&serverTimezone=UTC",
+                "root",
+                "admin"
+            );
+
+            // Prepare the SQL query
+            String sql = "INSERT INTO menu_item (id, category, name, price, original_price, discount, image_path) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            // Set the query parameters
+            pst.setString(1, prodid);
+            pst.setString(2, category);
+            pst.setString(3, prodname);
+            pst.setDouble(4, price);
+            pst.setDouble(5, price);  // Assuming price as original price
+            pst.setDouble(6, 0);  // No discount by default
+
+            // Handle file upload (if present)
+            String uploadPath = "C:/path/to/upload/directory/";
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();  // Create directory if it doesn't exist
+            }
+
+            if (filePart != null && filePart.getSize() > 0) {
+                String fileName = filePart.getSubmittedFileName();
+                String filePath = uploadPath + fileName;
+                filePart.write(filePath);
+                pst.setString(7, filePath);  // Set the file path in the database
+            } else {
+                pst.setString(7, "");  // No file uploaded
+            }
+
+            // Execute the query
+            int rowCount = pst.executeUpdate();
+
+            // Prepare response based on the result
+            dispatcher = request.getRequestDispatcher("admin.jsp");
+            if (rowCount > 0) {
+                request.setAttribute("status", "success");
+                request.setAttribute("message", "Product added successfully!");
+            } else {
+                request.setAttribute("status", "failed");
+                request.setAttribute("message", "Failed to add product, please try again.");
+            }
+
+            dispatcher.forward(request, response);
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            request.setAttribute("status", "failed");
+            request.setAttribute("errorMessage", "Quantity and Price must be valid numbers.");
+            dispatcher = request.getRequestDispatcher("admin.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle errors by forwarding to an error page
+            request.setAttribute("status", "failed");
+            request.setAttribute("errorMessage", "Error: " + e.getMessage());
+            dispatcher = request.getRequestDispatcher("error.jsp");
+            dispatcher.forward(request, response);
+        } finally {
+            // Ensure the connection is properly closed
+            try {
+                if (con != null && !con.isClosed()) {
+                    con.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}

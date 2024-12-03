@@ -1,0 +1,95 @@
+<%@ page import="java.sql.*" %>
+<%@ include file="dbconfig.jsp" %>
+
+<section class="section food-menu" id="food-menu">
+    <div class="container">
+        <p class="section-subtitle">Popular Dishes</p>
+        <h2 class="h2 section-title">
+            Our Delicious <span class="span">Foods</span>
+        </h2>
+        <ul class="fiter-list">
+            <li><button class="filter-btn active" data-filter="all">All</button></li>
+            <li><button class="filter-btn" data-filter="pizza">Pizza</button></li>
+            <li><button class="filter-btn" data-filter="burger">Burger</button></li>
+            <li><button class="filter-btn" data-filter="drinks">Drinks</button></li>
+            <li><button class="filter-btn" data-filter="sandwich">Sandwich</button></li>
+        </ul>
+
+        <ul class="food-menu-list">
+            <%
+                String query = "SELECT * FROM menu_item";
+                if (connection != null) {
+                    try {
+                        PreparedStatement ps = connection.prepareStatement(query);
+                        ResultSet rs = ps.executeQuery();
+                        while (rs.next()) {
+                            String name = rs.getString("name");
+                            String category = rs.getString("category");
+                            double price = rs.getDouble("price");
+                            double discount = rs.getDouble("discount");
+                            String imageUrl = rs.getString("image_url");
+                            int rating = rs.getInt("rating");
+                            double finalPrice = price - (price * discount / 100);
+            %>
+            <li data-category="<%= category %>">
+                <div class="food-menu-card">
+                    <div class="card-banner">
+                        <img src="<%= imageUrl %>" width="300" height="300" loading="lazy" alt="<%= name %>" class="w-100">
+                        <div class="badge">-<%= (int)discount %>%</div>
+                        <button class="btn food-menu-btn">Order Now</button>
+                    </div>
+                    <div class="wrapper">
+                        <p class="category"><%= category %></p>
+                        <div class="rating-wrapper">
+                            <% for (int i = 0; i < rating; i++) { %>
+                                <ion-icon name="star"></ion-icon>
+                            <% } %>
+                        </div>
+                    </div>
+                    <h3 class="h3 card-title"><%= name %></h3>
+                    <div class="price-wrapper">
+                        <p class="price-text">Price:</p>
+                        <data class="price">₹<%= String.format("%.2f", finalPrice) %></data>
+                        <del class="del">₹<%= price %></del>
+                    </div>
+                </div>
+            </li>
+            <% 
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    out.println("<p>Error: Database connection failed.</p>");
+                }
+            %>
+        </ul>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const menuItems = document.querySelectorAll(".food-menu-list li");
+
+        filterButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const filter = button.getAttribute("data-filter");
+
+                // Update active button
+                document.querySelector(".filter-btn.active").classList.remove("active");
+                button.classList.add("active");
+
+                // Filter items
+                menuItems.forEach(item => {
+                    const category = item.getAttribute("data-category");
+                    if (filter === "all" || category === filter) {
+                        item.style.display = "block";
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+            });
+        });
+    });
+</script>

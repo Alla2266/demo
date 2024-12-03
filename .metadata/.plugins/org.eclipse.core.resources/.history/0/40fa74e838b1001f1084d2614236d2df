@@ -1,0 +1,178 @@
+
+
+<%@page import="java.sql.*" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./css/admindashboard.css">
+    
+</head>
+<body>
+
+    <!-- Dashboard section starts here -->
+    <div class="container">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="icon"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
+                        <span class="title"><h2>Admin Dashboard</h2></span>
+                    </a> 
+                </li>
+                <li>
+                    <a href="admindashboard.jsp">
+                        <span class="icon"><i class="fa fa-home" aria-hidden="true"></i></span>
+                        <span class="title">Home</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="add_product.jsp">    
+                        <span class="icon"><i class="fa fa-id-card" aria-hidden="true"></i></span>
+                        <span class="title">Add Product</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                        <span class="title">View User</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><i class="fa fa-cogs" aria-hidden="true"></i></span>
+                        <span class="title">View Order</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#">
+                        <span class="icon"><i class="fa fa-cogs" aria-hidden="true"></i></span>
+                        <span class="title">View Feedback</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="login.jsp">
+                        <span class="icon"><i class="fa fa-sign-out" aria-hidden="true"></i></span>
+                        <span class="title">Log out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    <!-- Dashboard section ends here -->
+
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle"></div> 
+                <div class="search">
+                <label for="html">
+                    <input type="text" placeholder="Search Here">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </label>
+                </div>
+                <div class="user">
+                    <img src="./img/dashboard logo.png" style="height:80px;">
+                </div>
+            </div>
+           
+
+            <div class="cardbox">
+                <div class="card">
+                    <div>
+                        <div class="numbers">0</div>
+                        <div class="cardname">Active Users</div>
+                        <div class="numbers"></div>
+                    </div>
+                    <div class="iconbox">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="numbers">0</div>
+                        <div class="cardname">Sales</div>
+                        <div class="numbers"></div>
+                    </div>
+                    <div class="iconbox">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    </div>
+                </div>
+                
+                
+            </div>
+
+
+            <div class="details">
+                <div class="recentorders">
+                    <div class="cardheader">
+                        <h2>Product Details</h2>
+                        <a href="memvalid" class="btn">View All</a>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>ProdId</td>
+                                <td>ProdName</td>
+                                <td>Catagory</td>
+                                <td>Quantity</td>
+                                <td>Price</td>
+                            </tr>
+                        </thead>
+                         <% 
+        String ProductId = null;
+        String Catagory = null;
+        String ProductName=null;
+        String Image=null;
+        int Quantity=0;
+        double Price=0;
+ Connection conn = null;
+ PreparedStatement pstm = null;
+ ResultSet rs = null;
+ try {
+	 Class.forName("com.mysql.cj.jdbc.Driver");
+		String url="jdbc:mysql://localhost:3306/food_items";
+		String uid="root";
+		String upass="admin";
+		conn=DriverManager.getConnection(url,uid,upass);
+  
+pstm = conn.prepareStatement("select *from menu_item");
+rs = pstm.executeQuery();
+
+while (rs.next()) {
+ProductId=rs.getString(1);
+ProductName=rs.getString(2);
+Catagory=rs.getString(3);
+Quantity=rs.getInt(4);
+Price=rs.getDouble(5);
+//Image=rs.getString(6);
+%>
+          <thead>
+                            <tr>
+                                <td><%=ProductId %></td>
+                                <td><%=ProductName %></td>
+                                <td><%=Catagory %></td>
+                                <td><%=Quantity %></td>
+                                <td><%=Price %></td>
+                            </tr>
+                        </thead>            
+                   
+                      <%}
+
+} catch (Exception e) {
+}
+
+%>
+ </table>
+                </div>
+                
+        </div>
+     
+    </div>
+</body>
+</html>

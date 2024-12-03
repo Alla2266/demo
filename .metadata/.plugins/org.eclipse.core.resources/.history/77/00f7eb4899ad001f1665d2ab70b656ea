@@ -1,0 +1,85 @@
+package com.uniquedeveloper.registration;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+/**
+ * Servlet implementation class RegistrationServlet
+ */
+@WebServlet("/register")
+public class RegistrationServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Get form input parameters
+        String uname = request.getParameter("name");
+        String uemail = request.getParameter("email");
+        String upwd = request.getParameter("pass");
+        String umobile = request.getParameter("contact");
+
+        RequestDispatcher dispatcher = null;
+        Connection con = null;
+
+        try {
+            // Load the JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Establish a connection to the database
+            con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/food_items?useSSL=false&serverTimezone=UTC",
+                "admin",
+                "admin"
+            );
+
+            // Prepare the SQL statement
+            String query = "INSERT INTO users (uname, upwd, uemail, umobile) VALUES (?, ?, ?, ?)";
+            PreparedStatement pst = con.prepareStatement(query);
+
+            // Set values for placeholders in the query
+            pst.setString(1, uname);
+            pst.setString(2, upwd);
+            pst.setString(3, uemail);
+            pst.setString(4, umobile);
+
+            // Execute the query and check the result
+            int rowCount = pst.executeUpdate();
+
+            // Determine the response based on query execution result
+            dispatcher = request.getRequestDispatcher("registration.jsp");
+            if (rowCount > 0) {
+                request.setAttribute("status", "success");
+            } else {
+                request.setAttribute("status", "failed");
+            }
+
+            dispatcher.forward(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Forward to an error page if needed
+            request.setAttribute("errorMessage", e.getMessage());
+            dispatcher = request.getRequestDispatcher("error.jsp");
+            dispatcher.forward(request, response);
+        } finally {
+            // Ensure connection is closed
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}

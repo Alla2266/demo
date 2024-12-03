@@ -1,0 +1,73 @@
+package servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import utils.DBConnection;
+
+@WebServlet("/menu")
+public class MenuServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        try (Connection conn = DBConnection.getConnection()) {
+            String sql = "SELECT * FROM menu_item";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            out.println("<ul class='food-menu-list'>");
+
+            while (rs.next()) {
+                String category = rs.getString("category");
+                String name = rs.getString("name");
+                String image = rs.getString("image_url");
+                double price = rs.getDouble("price");
+                double discountPrice = rs.getDouble("discount_price");
+                int discount = rs.getInt("discount_percentage");
+                int rating = rs.getInt("rating");
+
+                out.println("<li data-category='" + category + "'>");
+                out.println("<div class='food-menu-card'>");
+
+                // Banner
+                out.println("<div class='card-banner'>");
+                out.println("<img src='" + image + "' alt='" + name + "' class='w-100'>");
+                out.println("<div class='badge'>-" + discount + "%</div>");
+                out.println("<button class='btn food-menu-btn'>Order Now</button>");
+                out.println("</div>");
+
+                // Wrapper
+                out.println("<div class='wrapper'>");
+                out.println("<p class='category'>" + category + "</p>");
+                out.println("<div class='rating-wrapper'>");
+                for (int i = 0; i < rating; i++) {
+                    out.println("<ion-icon name='star'></ion-icon>");
+                }
+                out.println("</div>");
+                out.println("</div>");
+
+                // Title & Price
+                out.println("<h3 class='h3 card-title'>" + name + "</h3>");
+                out.println("<div class='price-wrapper'>");
+                out.println("<p class='price-text'>Price:</p>");
+                out.println("<data class='price'>₹" + discountPrice + "</data>");
+                out.println("<del class='del'>₹" + price + "</del>");
+                out.println("</div>");
+
+                out.println("</div>");
+                out.println("</li>");
+            }
+            out.println("</ul>");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
